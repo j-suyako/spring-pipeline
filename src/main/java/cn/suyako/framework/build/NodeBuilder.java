@@ -3,20 +3,19 @@ package cn.suyako.framework.build;
 import cn.suyako.framework.basic.VirtualFlow;
 import cn.suyako.framework.core.*;
 import cn.suyako.framework.exception.BuildException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.Map;
 
+@Component
 public class NodeBuilder {
-    private final Map<String, Pipeline<? extends PipelineContext>> pipelineResources;
-    private final Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowResources;
-
-    public NodeBuilder(Map<String, Pipeline<? extends PipelineContext>> pipelineResources,
-                       Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowResources) {
-        this.pipelineResources = pipelineResources;
-        this.flowResources = flowResources;
-    }
+    @Value("#{builderResources.pipelineResources}")
+    private Map<String, Pipeline<? extends PipelineContext>> pipelineResources;
+    @Value("#{builderResources.flowResources}")
+    private Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowResources;
 
     public Node<? extends PipelineContext> build(Element nodeNode) throws BuildException {
         String context = nodeNode.getAttributes().getNamedItem("context").getNodeValue();

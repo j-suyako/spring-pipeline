@@ -5,17 +5,17 @@ import cn.suyako.framework.core.Flow;
 import cn.suyako.framework.core.PipelineContext;
 import cn.suyako.framework.core.Provider;
 import cn.suyako.framework.exception.BuildException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
 import java.util.Map;
 
+@Component
 public class ProviderBuilder {
-    private final Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowsResources;
-
-    public ProviderBuilder(Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowsResources) {
-        this.flowsResources = flowsResources;
-    }
+    @Value("#{builderResources.flowResources}")
+    private Map<String, Flow<? extends PipelineContext, ? extends PipelineContext>> flowsResources;
 
     public Provider<? extends PipelineContext> build(Element providerNode) throws BuildException {
         NamedNodeMap attributes = providerNode.getAttributes();

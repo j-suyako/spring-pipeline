@@ -4,10 +4,12 @@ import cn.suyako.framework.core.Pipeline;
 import cn.suyako.framework.core.PipelineContext;
 import cn.suyako.framework.core.WorkHandler;
 import cn.suyako.framework.exception.BuildException;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
 
 import java.util.*;
 
+@Component
 public class PipelineBuilder {
     public Pipeline<? extends PipelineContext> build(Element pipelineNode) throws BuildException {
         String context = pipelineNode.getAttributes().getNamedItem("context").getNodeValue();

@@ -3,10 +3,12 @@ package cn.suyako.framework.build;
 import cn.suyako.framework.core.Flow;
 import cn.suyako.framework.core.PipelineContext;
 import cn.suyako.framework.exception.BuildException;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
 
+@Component
 public class FlowBuilder {
     public Flow<? extends PipelineContext, ? extends PipelineContext> build(Element flowNode) throws BuildException {
         NamedNodeMap attributes = flowNode.getAttributes();

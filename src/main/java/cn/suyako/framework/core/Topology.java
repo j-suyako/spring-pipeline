@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -27,8 +28,16 @@ public class Topology {
         nodes.add(node);
     }
 
+    public void addNodes(Collection<Node<? extends PipelineContext>> nodes) {
+        this.nodes.addAll(nodes);
+    }
+
     public void addProvider(Provider<? extends PipelineContext> provider) {
         providers.add(provider);
+    }
+
+    public void addProviders(Collection<Provider<? extends PipelineContext>> providers) {
+        this.providers.addAll(providers);
     }
 
     public void execute() {
