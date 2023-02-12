@@ -65,6 +65,7 @@ public class Pipeline<T extends PipelineContext> {
                 break;
             }
         } while ((pointer = pointer.invoke(t)) != null);
+        t.release();
     }
 
     public WorkHandler<T> getHandler(String id) {

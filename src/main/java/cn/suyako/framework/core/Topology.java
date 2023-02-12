@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class Topology {
     private String id;
     private ThreadPoolExecutor executor;
+    private boolean executed = false;
     private final List<Node<? extends PipelineContext>> nodes = new ArrayList<>();
     private final List<Provider<? extends PipelineContext>> providers = new ArrayList<>();
 
@@ -40,12 +41,15 @@ public class Topology {
         this.providers.addAll(providers);
     }
 
-    public void execute() {
+    public synchronized void execute() {
+        if (executed)
+            return;
         for (Provider<?> provider : providers) {
             provider.execute();
         }
         for (Node<?> node : nodes) {
             node.execute(executor);
         }
+        executed = true;
     }
 }

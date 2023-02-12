@@ -23,6 +23,8 @@ public class Node<T extends PipelineContext> {
                 pipeline.run(context);
             } catch (Exception ex) {
                 log.error(String.format("node %s run error", id), ex);
+                context.release();
+                return;
             }
             outFlows.acquire(context);
         }
