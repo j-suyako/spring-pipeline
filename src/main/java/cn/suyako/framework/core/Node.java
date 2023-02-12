@@ -1,12 +1,9 @@
 package cn.suyako.framework.core;
 
-import cn.suyako.framework.exception.RunningException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Getter
@@ -27,22 +24,18 @@ public class Node<T extends PipelineContext> {
             } catch (Exception ex) {
                 log.error(String.format("node %s run error", id), ex);
             }
-            for (Flow<T, ? extends PipelineContext> flow : outFlows) {
-                try {
-                    flow.acquire(context);
-                } catch (Exception ex) {
-                    log.error(String.format("flow %s acquire context error from upstream node %s", flow.getId(), id));
-                }
-            }
+            outFlows.acquire(context);
         }
     }
     private String id;
     private Pipeline<T> pipeline;
-    private Flow<? extends PipelineContext, T> inFlow;
-    private final List<Flow<T, ? extends PipelineContext>> outFlows = new ArrayList<>();
+    private final InFlowList<T> inFlows = new InFlowList<>();
+    private final OutFlowList<T> outFlows = new OutFlowList<>();
 
     public Node(String id) {
         this.id = id;
+        inFlows.setDownNode(this);
+        outFlows.setUpNode(this);
     }
 
     public void execute(ThreadPoolExecutor executor) {
@@ -50,7 +43,7 @@ public class Node<T extends PipelineContext> {
             while (true) {
                 T t;
                 try {
-                    t = inFlow.take();
+                    t = inFlows.take();
                 } catch (InterruptedException ex) {
                     log.error(String.format("%s exit", id), ex);
                     break;
@@ -67,8 +60,13 @@ public class Node<T extends PipelineContext> {
         flow.setUpStream(this);
     }
 
-    public void setInFlow(Flow<? extends PipelineContext, T> inFlow) {
-        this.inFlow = inFlow;
-        inFlow.setDownStream(this);
+    public void addIn(Flow<? extends PipelineContext, T> flow) {
+        inFlows.add(flow);
+        flow.setDownStream(this);
+    }
+
+    public void setInFlowPool(String type) {
+        type = type.isEmpty() ? "default" : type;
+        inFlows.setPool(type);
     }
 }

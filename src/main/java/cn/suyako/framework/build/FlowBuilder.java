@@ -14,7 +14,6 @@ public class FlowBuilder {
         NamedNodeMap attributes = flowNode.getAttributes();
         String clazz = attributes.getNamedItem("class").getNodeValue();
         String id = attributes.getNamedItem("id").getNodeValue();
-        String pool = attributes.getNamedItem("pool") == null ? "default" : attributes.getNamedItem("pool").getNodeValue();
         Object instance;
         try {
             Class<?> klass = Class.forName(clazz);
@@ -28,7 +27,6 @@ public class FlowBuilder {
         Flow<? extends PipelineContext, ? extends PipelineContext> flow =
                 (Flow<? extends PipelineContext, ? extends PipelineContext>) instance;
         flow.setId(id);
-        flow.setPool(pool);
         return flow;
     }
 }

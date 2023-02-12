@@ -33,8 +33,15 @@ public class NodeBuilder {
 
     private <T extends PipelineContext> Node<T> build(Element root, String id, Class<T> type) throws BuildException {
         Node<T> node = new Node<>(id);
-        Element inFlowNode = BuilderUtils.getUniqueElementByName(root, "in-flow");
-        registerInFlow(node, inFlowNode, type);
+        if (root.getElementsByTagName("in-flows").getLength() != 0) {
+            Element inFlowsNode = BuilderUtils.getUniqueElementByName(root, "in-flows");
+            node.setInFlowPool(inFlowsNode.getAttribute("pool"));
+            NodeList inFlowNodes = inFlowsNode.getElementsByTagName("in-flow");
+            for (int i = 0; i < inFlowNodes.getLength(); i++) {
+                Element inFlowNode = (Element) inFlowNodes.item(i);
+                registerInFlow(node, inFlowNode, type);
+            }
+        }
         Element pipelineNode = BuilderUtils.getUniqueElementByName(root, "pipeline");
         registerPipeline(node, pipelineNode, type);
         if (root.getElementsByTagName("out-flows").getLength() != 0) {
@@ -56,7 +63,7 @@ public class NodeBuilder {
         if (flow.getClass() != VirtualFlow.class && flowType != type) {
             throw new BuildException(String.format("%s node and its inflow has no consistency context", node.getId()));
         }
-        node.setInFlow((Flow<? extends PipelineContext, T>) flow);
+        node.addIn((Flow<? extends PipelineContext, T>) flow);
     }
 
     @SuppressWarnings("unchecked")

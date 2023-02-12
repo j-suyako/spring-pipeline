@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 @Slf4j
 @Getter
@@ -22,7 +20,6 @@ public abstract class Flow<U extends PipelineContext, D extends PipelineContext>
 
     public Flow() {
         id = this.getClass().getName();
-        pool = new LinkedBlockingQueue<>();
     }
 
     public D take() throws InterruptedException {
@@ -34,21 +31,6 @@ public abstract class Flow<U extends PipelineContext, D extends PipelineContext>
     }
 
     public abstract void acquire(U u);
-
-    public void setPool(String type) {
-        switch (type) {
-            case "default":
-                this.pool = new LinkedBlockingQueue<>();
-                break;
-            case "priority":
-                this.pool = new PriorityBlockingQueue<>();
-                break;
-            default:
-                log.warn(String.format("%s pool parameter is not support", type));
-                this.pool = new LinkedBlockingQueue<>();
-                break;
-        }
-    }
 
     public void addProvider(Provider<D> provider) {
         registerProviders.put(provider.getId(), provider);
