@@ -1,5 +1,6 @@
 package cn.suyako.framework.core;
 
+import cn.suyako.framework.topo.Flow;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

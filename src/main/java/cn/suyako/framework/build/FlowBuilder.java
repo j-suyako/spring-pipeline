@@ -1,6 +1,6 @@
 package cn.suyako.framework.build;
 
-import cn.suyako.framework.core.Flow;
+import cn.suyako.framework.topo.Flow;
 import cn.suyako.framework.core.PipelineContext;
 import cn.suyako.framework.exception.BuildException;
 import org.springframework.stereotype.Component;

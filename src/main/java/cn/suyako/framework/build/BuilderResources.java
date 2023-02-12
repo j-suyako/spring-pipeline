@@ -1,6 +1,8 @@
 package cn.suyako.framework.build;
 
 import cn.suyako.framework.core.*;
+import cn.suyako.framework.topo.Flow;
+import cn.suyako.framework.topo.Node;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

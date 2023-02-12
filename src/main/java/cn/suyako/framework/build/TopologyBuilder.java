@@ -2,6 +2,9 @@ package cn.suyako.framework.build;
 
 import cn.suyako.framework.core.*;
 import cn.suyako.framework.exception.BuildException;
+import cn.suyako.framework.topo.Flow;
+import cn.suyako.framework.topo.Node;
+import cn.suyako.framework.topo.Topology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

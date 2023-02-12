@@ -3,6 +3,8 @@ package cn.suyako.framework.build;
 import cn.suyako.framework.basic.VirtualFlow;
 import cn.suyako.framework.core.*;
 import cn.suyako.framework.exception.BuildException;
+import cn.suyako.framework.topo.Flow;
+import cn.suyako.framework.topo.Node;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;

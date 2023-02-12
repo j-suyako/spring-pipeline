@@ -2,6 +2,7 @@ package cn.suyako.framework.build;
 
 import cn.suyako.framework.core.*;
 import cn.suyako.framework.exception.BuildException;
+import cn.suyako.framework.topo.Flow;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
